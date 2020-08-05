@@ -6,6 +6,6 @@ class VerifyManager
 {
     public static function verify(): bool
     {
-        return (bool)strpos(config('app.main'), request()->getHost());
+        return (bool)strpos(config('tenant.main'), request()->getHost());
     }
 }

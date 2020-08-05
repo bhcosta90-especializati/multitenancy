@@ -7,9 +7,14 @@ use App\Models\Company;
 
 class SiteController extends Controller
 {
-    public function index()
+    public function index(Company $company)
     {
-        return view('welcome');
+        return view("main.welcome");
+    }
+
+    public function migrate()
+    {
+        return view("main.migrate");
     }
 
     public function companyStore(CompanyRequest $companyRequest)
@@ -18,8 +23,10 @@ class SiteController extends Controller
             throw new \Exception('Favor informar `DB_HOST_TENANT`');
         }
 
+
         $data = $companyRequest->validated();
         $obj = Company::create($data + [
+                "document" => $data['document'],
                 "domain" => $data['slug'],
                 "bd_hostname" => env('DB_HOST_TENANT')
             ]);

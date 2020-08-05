@@ -7,6 +7,17 @@ use App\Support\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property mixed|string name
+ * @property mixed|string domain
+ * @property mixed|string document
+ * @property mixed|string bd_database
+ * @property mixed|string bd_hostname
+ * @property mixed|string bd_username_read
+ * @property mixed|string bd_username_write
+ * @property mixed|string bd_password_read
+ * @property mixed|string bd_password_write
+ */
 class Company extends Model
 {
     use Uuid, SoftDeletes;
@@ -14,7 +25,6 @@ class Company extends Model
     private static $company;
 
     protected $dispatchesEvents = [
-        'creating' => CompanyCreateObserver::class,
         'created' => CompanyCreateObserver::class,
     ];
 
@@ -46,6 +56,24 @@ class Company extends Model
         }
 
         return self::$company;
+    }
+
+    public static function getTheme(): string {
+        $theme = "main.";
+
+        if($company = self::getCompanyByHost()){
+            $theme = $company->theme . ".";
+        }
+        return $theme;
+    }
+
+    public static function getNamespace(): string {
+        if($company = self::getCompanyByHost()) {
+            $theme = str_replace('-', ' ', $company->theme);
+            $themeClass = str_replace(' ', '', ucwords($theme));
+            return "Tenant\\{$themeClass}";
+        }
+        return "";
     }
 
     public static function getCompany(string $host): ?Company

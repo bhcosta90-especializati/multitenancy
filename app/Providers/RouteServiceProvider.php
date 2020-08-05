@@ -43,11 +43,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
-
-        $this->mapWebRoutes();
-
-        //
+        if (VerifyManager::verify()) {
+            $this->mapApiRoutes();
+            $this->mapWebRoutes();
+        } else{
+            $this->mapApiTenantRoutes();
+            $this->mapWebTenantRoutes();
+        }
     }
 
     /**
@@ -59,24 +61,25 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        $namespace = $this->namespace . (VerifyManager::verify() ? "\\Main" : $this->getNamespace());
-        $route = VerifyManager::verify() ? 'routes/api.php' : 'routes/api.tenant.php';
-
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($namespace)
-            ->group(base_path($route));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 
-    private function getNamespace()
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiTenantRoutes()
     {
-        $company = Company::getCompanyByHost();
-        if (empty($company)) {
-            abort(404);
-        }
-        $theme = str_replace('-', ' ', $company->theme);
-        $themeClass = str_replace(' ', '', ucwords($theme));
-        return "\\Tenant\\{$themeClass}";
+        Route::prefix('api')
+            ->middleware(['api', 'verify.domain'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.tenant.php'));
     }
 
     /**
@@ -88,11 +91,22 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        $namespace = $this->namespace . (VerifyManager::verify() ? "\\Main" : $this->getNamespace());
-        $route = VerifyManager::verify() ? 'routes/web.php' : 'routes/web.tenant.php';
+        Route::middleware(['web', 'verify.domain'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+    }
 
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebTenantRoutes()
+    {
         Route::middleware('web')
-            ->namespace($namespace)
-            ->group(base_path($route));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.tenant.php'));
     }
 }

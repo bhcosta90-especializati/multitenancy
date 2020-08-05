@@ -1,4 +1,4 @@
-@extends('layouts.site')
+@extends('main.layouts.site')
 
 @section('content')
     <form autocomplete="off" method="post" action="{{ route('company.store') }}">

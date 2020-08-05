@@ -27,7 +27,7 @@ class CompanyRequest extends FormRequest
 
         return [
             'name' => ['required', 'max:191'],
-            'document' => ['required', 'max:18'],
+            'document' => ['required', 'max:18', "unique:companies,document,{$id},id,deleted_at,NULL"],
             'slug' => ['required', 'max:191', "unique:companies,domain,{$id},id,deleted_at,NULL"],
         ];
     }

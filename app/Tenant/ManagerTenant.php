@@ -28,12 +28,4 @@ class ManagerTenant
 
         return $this;
     }
-
-    public function setView(Company $company)
-    {
-        config()->set('view.paths', [resource_path("views/tenant/{$company->theme}")]);
-        config()->set('view.compiled', env('VIEW_COMPILED_PATH', realpath(storage_path("framework/views"))) . "/tenant/{$company->theme}");
-
-        return $this;
-    }
 }

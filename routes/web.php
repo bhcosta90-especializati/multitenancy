@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'SiteController@index')->name('home');
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::view('/register', 'register')->name('company.register');
-Route::post('/register', 'SiteController@companyStore')->name('company.store');
+Route::group([
+    'namespace' => 'Main'
+], function(){
+    Route::get('/', 'SiteController@index')->name('home');
+    Route::view('/register', 'main.register')->name('company.register');
+    Route::post('/register', 'SiteController@companyStore')->name('company.store');
+});

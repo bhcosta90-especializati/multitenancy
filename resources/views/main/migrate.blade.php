@@ -1,5 +1,5 @@
-@extends('layouts.app')
+@extends('main.layouts.site')
 
 @section('content')
-    Ainda estamos montando
+    Ainda estamos montando a sua loja virtual, aguarde alguns instantes.
 @endsection

@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    dump(\App\Models\Tenant\User::all());
-    return view('welcome');
-})->name('home');
+Route::group([
+    'namespace' => \App\Models\Company::getNamespace(),
+], function(){
+    Route::get('/', 'SiteController@home')->name('home');
+});
 
-Route::get('/migrate', 'HomeController@migrate')->name('migrate');
+Route::get('/migrate', 'Main\SiteController@migrate')->name('migrate');

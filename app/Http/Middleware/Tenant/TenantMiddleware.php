@@ -32,7 +32,7 @@ class TenantMiddleware
             } else if ($request->url() == route('migrate') && $company->active == true) {
                 return redirect()->route('home');
             }
-            app(ManagerTenant::class)->setConnection($company)->setView($company);
+            app(ManagerTenant::class)->setConnection($company);
         }
 
         return $next($request);
