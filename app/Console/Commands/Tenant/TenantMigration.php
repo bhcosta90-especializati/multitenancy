@@ -10,20 +10,19 @@ use Illuminate\Support\Facades\Artisan;
 
 class TenantMigration extends Command
 {
-    private $tenant;
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
     protected $signature = 'tenant:migrate {id?} {--refresh}';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Run migrations tenants';
+    private $tenant;
 
     /**
      * Create a new command instance.
@@ -58,7 +57,7 @@ class TenantMigration extends Command
             $companies = Company::orderBy('created_at')->get();
         }
 
-        foreach($companies as $company){
+        foreach ($companies as $company) {
             $this->info("Company: {$company->name} ($company->id)");
             $parameters = [
                 '--database' => 'tenant',

@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseManager
 {
-    public static function dropDatabase(Company $company){
+    public static function dropDatabase(Company $company)
+    {
         DB::statement("
             DROP DATABASE IF EXISTS {$company->bd_database}
         ");
     }
+
     public static function createDatabase(Company $company)
     {
         DB::statement("
@@ -21,7 +23,8 @@ class DatabaseManager
         ");
     }
 
-    public static function createUser(Company $company){
+    public static function createUser(Company $company)
+    {
         DB::statement("
             CREATE USER 'tenant_read'@'{$company->bd_hostname}' IDENTIFIED BY 't1e2n3a4nt_read';
         ");
@@ -31,7 +34,8 @@ class DatabaseManager
         ");
     }
 
-    public static function previlegiesUser(Company $company){
+    public static function previlegiesUser(Company $company)
+    {
         DB::statement("
             GRANT SELECT ON {$company->bd_database}.* TO tenant_read@'{$company->bd_hostname}';
         ");

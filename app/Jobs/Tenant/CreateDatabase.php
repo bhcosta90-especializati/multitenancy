@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Tenant;
 
-use App\Models\Company;
 use App\Models\Tenant\User;
 use App\Tenant\Database\DatabaseManager;
 use App\Tenant\ManagerTenant;
@@ -37,9 +36,9 @@ class CreateDatabase implements ShouldQueue
     public function handle()
     {
         DatabaseManager::createDatabase($this->company);
-        try{
+        try {
             DatabaseManager::createUser($this->company);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
         }
         DatabaseManager::previlegiesUser($this->company);
         Artisan::call("tenant:migrate {$this->company->id}");

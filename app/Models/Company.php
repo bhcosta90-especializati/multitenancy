@@ -11,6 +11,8 @@ class Company extends Model
 {
     use Uuid, SoftDeletes;
 
+    private static $company;
+
     protected $dispatchesEvents = [
         'creating' => CompanyCreateObserver::class,
         'created' => CompanyCreateObserver::class,
@@ -27,24 +29,26 @@ class Company extends Model
         'bd_password_write',
     ];
 
-    public static function getCompanyByHost(){
-        $request = request();
+    public static function getCompanyByHost(): ?Company
+    {
+        if (self::$company == null) {
+            $request = request();
 
-        $company = self::getCompany($request->getHost());
+            $company = self::getCompany($request->getHost());
 
-        #TODO fazer a parte de subdominio
-        if (empty($company)) {
-            $company = self::getCompany(collect(explode('.', $request->getHost()))->first());
+            #TODO fazer a parte de subdominio
+            if (empty($company)) {
+                $company = self::getCompany(collect(explode('.', $request->getHost()))->first());
+            }
+            self::$company = $company;
+            return $company;
         }
 
-        if (empty($company)) {
-            abort(404);
-        }
-
-        return $company;
+        return self::$company;
     }
 
-    public static function getCompany(string $host): ?Company{
+    public static function getCompany(string $host): ?Company
+    {
         return Company::whereDomain($host)->first();
     }
 

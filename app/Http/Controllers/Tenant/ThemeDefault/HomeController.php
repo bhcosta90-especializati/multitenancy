@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Tenant\ThemeDefault;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     /**

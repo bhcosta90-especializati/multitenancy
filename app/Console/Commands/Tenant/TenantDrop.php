@@ -9,21 +9,19 @@ use Illuminate\Console\Command;
 
 class TenantDrop extends Command
 {
-    private $tenant;
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
     protected $signature = 'tenant:drop {id}';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Command description';
+    private $tenant;
 
     /**
      * Create a new command instance.

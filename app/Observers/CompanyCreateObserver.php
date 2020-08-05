@@ -7,7 +7,8 @@ use App\Models\Company;
 
 class CompanyCreateObserver
 {
-    public function creating(Company $obj){
+    public function creating(Company $obj)
+    {
         $obj->bd_database = "multitenant_" . sha1($obj->id);
         $obj->bd_username_read = "tenant_read";
         $obj->bd_username_write = "tenant_write";

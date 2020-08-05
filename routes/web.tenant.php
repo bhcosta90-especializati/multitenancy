@@ -17,5 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Auth::routes();
 Route::get('/migrate', 'HomeController@migrate')->name('migrate');

@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Models\Company;
 use App\Observers\CompanyCreateObserver;
-use Illuminate\Queue\Events\JobProcessing;
-use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,7 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
