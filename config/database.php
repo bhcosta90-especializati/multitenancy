@@ -6,7 +6,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Database Connection Name
+    | ThemeDefault Database Connection Name
     |--------------------------------------------------------------------------
     |
     | Here you may specify which of the database connections below you wish
@@ -64,13 +64,20 @@ return [
         ],
 
         'tenant' => [
+            'read' => [
+                'username' => '',
+                'password' => '',
+            ],
+            'write' => [
+                'username' => '',
+                'password' => '',
+            ],
             'driver' => env('DATABASE_DRIVER'),
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+//            'username' => env('DB_USERNAME', 'forge'),
+//            'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Broadcaster
+    | ThemeDefault Broadcaster
     |--------------------------------------------------------------------------
     |
     | This option controls the default broadcaster that will be used by the

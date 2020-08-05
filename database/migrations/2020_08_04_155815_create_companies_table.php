@@ -16,15 +16,21 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('domain')->unique();
+            $table->string('domain');
             $table->string('bd_driver')->default('mysql');
             $table->string('bd_database');
             $table->string('bd_hostname');
-            $table->string('bd_username');
-            $table->string('bd_password');
+            $table->string('bd_username_read');
+            $table->string('bd_password_read');
+            $table->string('bd_username_write');
+            $table->string('bd_password_write');
             $table->string('bd_port')->default(3306);
-            $table->string('theme')->default('default');
+            $table->string('theme')->default('theme-default');
+            $table->string('active')->default(false);
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['domain', 'deleted_at']);
         });
     }
 

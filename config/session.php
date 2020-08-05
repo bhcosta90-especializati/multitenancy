@@ -6,7 +6,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Session Driver
+    | ThemeDefault Session Driver
     |--------------------------------------------------------------------------
     |
     | This option controls the default session "driver" that will be used on

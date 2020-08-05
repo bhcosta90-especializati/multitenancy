@@ -8,7 +8,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Log Channel
+    | ThemeDefault Log Channel
     |--------------------------------------------------------------------------
     |
     | This option defines the default log channel that gets used when writing

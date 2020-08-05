@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Support\VerifyManager;
 use App\Tenant\ManagerTenant;
 use Closure;
+use Illuminate\Support\Facades\Route;
 
 class TenantMiddleware
 {
@@ -19,24 +20,22 @@ class TenantMiddleware
     public function handle($request, Closure $next)
     {
         if (!VerifyManager::verify()) {
-            $company = $this->getCompany($request->getHost());
+            $company = Company::getCompanyByHost();
 
-            #TODO fazer a parte de subdominio
-            if (empty($company)) {
-                $company = $this->getCompany(collect(explode('.', $request->getHost()))->first());
-            }
-            
             if (empty($company)) {
                 abort(404);
             }
-    
+
+            if($company->active == false && $request->url() != route('migrate')){
+                return redirect()->route('migrate');
+            } else if($request->url() == route('migrate') && $company->active == false){
+                return $next($request);
+            } else if($request->url() == route('migrate') && $company->active == true){
+                return redirect()->route('home');
+            }
             app(ManagerTenant::class)->setConnection($company)->setView($company);
         }
-        
-        return $next($request);
-    }
 
-    public function getCompany(string $host): ?Company{
-        return Company::whereDomain($host)->first();
+        return $next($request);
     }
 }

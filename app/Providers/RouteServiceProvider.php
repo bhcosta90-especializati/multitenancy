@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Company;
+use App\Support\VerifyManager;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +51,14 @@ class RouteServiceProvider extends ServiceProvider
         //
     }
 
+    private function getNamespace(){
+        $company = Company::getCompanyByHost();
+        $theme = str_replace('-', ' ', $company->theme);
+        $themeReplace = preg_replace('/(?<!\ )[A-Z]/', ' $0', $theme);
+        $themeClass = str_replace(' ', '', ucwords($theme));
+        return "\\Tenant\\{$themeClass}";
+    }
+
     /**
      * Define the "web" routes for the application.
      *
@@ -58,9 +68,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
+        $namespace = $this->namespace . (VerifyManager::verify() ? "\\Main" : $this->getNamespace());
+        $route = VerifyManager::verify() ? 'routes/web.php' : 'routes/web.tenant.php';
+
         Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
+            ->namespace($namespace)
+            ->group(base_path($route));
     }
 
     /**
@@ -72,9 +85,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+        $namespace = $this->namespace . (VerifyManager::verify() ? "\\Main" : $this->getNamespace());
+        $route = VerifyManager::verify() ? 'routes/api.php' : 'routes/api.tenant.php';
+
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/api.php'));
+            ->namespace($namespace)
+            ->group(base_path($route));
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class TenantMigration extends Command
 {
-    private $tenant = null;
+    private $tenant;
     /**
      * The name and signature of the console command.
      *
@@ -53,9 +53,9 @@ class TenantMigration extends Command
         }
 
         if ($tenant) {
-            $companies = Company::whereId($tenant)->get();   
+            $companies = Company::whereId($tenant)->get();
         } else {
-            $companies = Company::orderBy('created_at')->get();   
+            $companies = Company::orderBy('created_at')->get();
         }
 
         foreach($companies as $company){
@@ -65,7 +65,7 @@ class TenantMigration extends Command
                 '--force' => true,
                 '--path' => '/database/migrations/tenant',
             ];
-    
+
             $this->info("Init command {$command}");
             $this->tenant->setConnection($company);
             $migrate = Artisan::call($command, $parameters);

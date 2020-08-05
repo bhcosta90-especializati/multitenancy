@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Filesystem Disk
+    | ThemeDefault Filesystem Disk
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default filesystem disk that should be used
@@ -17,7 +17,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Cloud Filesystem Disk
+    | ThemeDefault Cloud Filesystem Disk
     |--------------------------------------------------------------------------
     |
     | Many applications store files both locally and in the cloud. For this

@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -79,22 +80,18 @@
                 </div>
             @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+            <form autocomplete="off" method="post" action="{{ route('company.store') }}">
+                @csrf
+                <div class="form-group">
+                    <label>Nome da sua loja</label>
+                    <input type="text" name="name" class="form-control" />
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                <div class="form-group">
+                    <label>Endereço</label>
+                    <input type="text" name="slug" class="form-control" />
                 </div>
-            </div>
+                <button class="btn btn-primary">Cadastrar</button>
+            </form>
         </div>
     </body>
 </html>

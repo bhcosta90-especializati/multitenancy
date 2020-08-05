@@ -4,8 +4,8 @@ namespace App\Support;
 
 class VerifyManager
 {
-    public static function verify()
+    public static function verify(): bool
     {
-        return strpos(config('app.main'), request()->getHost());
+        return (bool) strpos(config('app.main'), request()->getHost());
     }
 }
