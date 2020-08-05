@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'SiteController@index')->name('home');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/company', 'CompanyController@store')->name('company.store');
+Route::view('/register', 'register')->name('company.register');
+Route::post('/register', 'SiteController@companyStore')->name('company.store');

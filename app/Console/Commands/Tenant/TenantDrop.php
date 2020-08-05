@@ -14,7 +14,7 @@ class TenantDrop extends Command
      *
      * @var string
      */
-    protected $signature = 'tenant:drop {id}';
+    protected $signature = 'tenant:drop {id?}';
     /**
      * The console command description.
      *
@@ -43,8 +43,19 @@ class TenantDrop extends Command
     {
         $tenant = $this->argument('id');
 
-        $companies = Company::whereId($tenant)->firstOrFail();
+        if (app()->environment('production') && empty($tenant)) {
+            throw new \Exception('Favor infomar o ID da loja');
+        }
+        if ($tenant) {
+            $companies = Company::whereId($tenant)->firstOrFail();
+            DropTenant::dispatch($companies);
+        } else {
+            $companies = Company::orderBy('created_at')->get();
 
-        DropTenant::dispatch($companies);
+            foreach ($companies as $company) {
+                DropTenant::dispatch($company);
+            }
+        }
+
     }
 }

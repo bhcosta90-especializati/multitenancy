@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    dump(\App\Models\Tenant\User::all());
     return view('welcome');
 })->name('home');
 

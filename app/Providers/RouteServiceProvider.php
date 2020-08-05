@@ -71,8 +71,10 @@ class RouteServiceProvider extends ServiceProvider
     private function getNamespace()
     {
         $company = Company::getCompanyByHost();
+        if (empty($company)) {
+            abort(404);
+        }
         $theme = str_replace('-', ' ', $company->theme);
-        $themeReplace = preg_replace('/(?<!\ )[A-Z]/', ' $0', $theme);
         $themeClass = str_replace(' ', '', ucwords($theme));
         return "\\Tenant\\{$themeClass}";
     }

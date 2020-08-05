@@ -21,6 +21,7 @@ class Company extends Model
     protected $fillable = [
         'name',
         'domain',
+        'document',
         'bd_database',
         'bd_hostname',
         'bd_username_read',
@@ -52,13 +53,28 @@ class Company extends Model
         return Company::whereDomain($host)->first();
     }
 
-//    public function setBdPasswordAttribute($bd_passwod)
-//    {
-//        $this->attributes['bd_password'] = base64_encode(env('JWT_TOKEN') . $bd_passwod);
-//    }
-//
-//    public function getBdPasswordAttribute($password)
-//    {
-//        return base64_decode(env('JWT_TOKEN') . $password);
-//    }
+    public function setBdPasswordReadAttribute($password)
+    {
+        $this->attributes['bd_password_read'] = base64_encode(env('JWT_TOKEN') . $password);
+    }
+
+    public function getBdPasswordReadAttribute($password)
+    {
+        return str_replace(env('JWT_TOKEN'), '', base64_decode($password));
+    }
+
+    public function setBdPasswordWriteAttribute($password)
+    {
+        $this->attributes['bd_password_write'] = base64_encode(env('JWT_TOKEN') . $password);
+    }
+
+    public function getBdPasswordWriteAttribute($password)
+    {
+        return str_replace(env('JWT_TOKEN'), '', base64_decode($password));
+    }
+
+    public function setDocumentAttribute($document)
+    {
+        $this->attributes['document'] = preg_replace("/[^0-9]/", "", $document);
+    }
 }

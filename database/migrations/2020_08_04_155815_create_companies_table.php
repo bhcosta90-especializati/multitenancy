@@ -17,6 +17,7 @@ class CreateCompaniesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('domain');
+            $table->string('document', 14);
             $table->string('bd_driver')->default('mysql');
             $table->string('bd_database');
             $table->string('bd_hostname');
